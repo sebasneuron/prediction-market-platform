@@ -1,0 +1,20 @@
+[package]
+name = "auth-service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+db-service = { path = "../db-service" }
+utility-helpers = { path = "../utility-helpers" }
+jsonwebtoken = "9.3.1"
+aes = "0.8.4"
+aes-gcm = "0.10.3"
+chrono = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dotenv = { workspace = true }
+reqwest = { workspace = true }
+base64 = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+sqlx = { workspace = true }

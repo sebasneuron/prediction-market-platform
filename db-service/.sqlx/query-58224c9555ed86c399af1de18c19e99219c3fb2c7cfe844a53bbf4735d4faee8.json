@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE polymarket.orders\n            SET status = 'expired'::polymarket.order_status\n            WHERE market_id = $1 AND status in (\n                'open'::polymarket.order_status,\n                'partial_fill'::polymarket.order_status,\n                'pending_update'::polymarket.order_status,\n                'pending_cancel'::polymarket.order_status\n            )\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "58224c9555ed86c399af1de18c19e99219c3fb2c7cfe844a53bbf4735d4faee8"
+}

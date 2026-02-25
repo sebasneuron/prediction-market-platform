@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE polymarket.user_holdings\n            SET shares = 0\n            WHERE market_id = $1\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "c67839bd0236b2649f0b4e747c7e63f243bdae338ab38c36483ab7aee7ea3645"
+}

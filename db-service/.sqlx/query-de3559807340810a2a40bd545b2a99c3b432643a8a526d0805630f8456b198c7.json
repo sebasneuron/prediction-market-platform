@@ -1,0 +1,83 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO polymarket.user_holdings (user_id, market_id, shares, outcome)\n            VALUES ($1, $2, $3, $4)\n            ON CONFLICT (user_id, market_id, outcome)\n            DO UPDATE SET shares = polymarket.user_holdings.shares + $3,\n            updated_at = NOW()\n            RETURNING \n                id, \n                user_id, \n                market_id, \n                shares, \n                created_at, \n                updated_at, \n                outcome as \"outcome: Outcome\";\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "shares",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 5,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 6,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "de3559807340810a2a40bd545b2a99c3b432643a8a526d0805630f8456b198c7"
+}

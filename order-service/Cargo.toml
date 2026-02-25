@@ -1,0 +1,26 @@
+[package]
+name = "order-service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+utility-helpers = { path = "../utility-helpers" }
+db-service = { path = "../db-service" }
+proto-defs = { path = "../proto-defs" }
+async-nats = { workspace = true }
+prost = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+rust_decimal = { workspace = true }
+rust_decimal_macros = { workspace = true }
+dotenv = { workspace = true }
+sqlx = { workspace = true }
+parking_lot = { workspace = true }
+futures-util = { workspace = true }
+rdkafka = { workspace = true }
+tokio-tungstenite = "0.26.2"

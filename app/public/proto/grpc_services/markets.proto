@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package markets;
+
+service MarketService {
+    rpc GetMarketData(GetMarketDataRequest) returns (GetPaginatedMarketResponse);    
+    rpc GetMarketById(RequestWithMarketId) returns (GetMarketByIdResponse);
+    rpc GetMarketBook(RequestForMarketBook) returns (GetMarketBookResponse);
+    rpc GetTopHolders(RequestWithMarketId) returns (GetTopHoldersResponse);
+    rpc GetMarketTrades(RequestWithMarketIdAndPageRequest) returns (GetMarketTradesResponse);
+}
+
+
+enum MarketStatus {
+    UNSPECIFIED_MARKET_STATUS = 0;
+    OPEN = 1;
+    CLOSED = 2;
+    SETTLED = 3;
+}
+
+enum Outcome {
+    UNSPECIFIED_OUTCOME = 0;
+    YES = 1;
+    NO = 2;
+    UNSPECIFIED = 3;
+}
+
+enum TradeType {
+    UNSPECIFIED_TRADE_TYPE = 0;
+    BUY = 1; // Buy trade
+    SELL = 2; // Sell trade
+}
+
+message GetMarketDataRequest {
+    common.PageRequest page_request = 1; // Pagination request
+    MarketStatus market_status = 2; // Status of the market
+}
+
+message OrderLevel {
+    double price = 1; // Price of the order
+    double shares = 2; // Total quantity of shares at this price
+    uint32 users = 3; // Number of users at this price (histogram)
+}
+
+message RequestWithMarketIdAndPageRequest {
+    string market_id = 1; // ID of the market
+    common.PageRequest page_request = 2; // Pagination request
+}
+
+message MarketTrade {
+    string id = 1;
+    string name = 2;
+    string avatar = 3;
+    string email = 4;
+    TradeType trade_type = 5;
+    Outcome outcome = 6;
+    double price = 7;
+    double quantity = 8;
+    string created_at = 9;
+}
+
+message GetMarketTradesResponse {
+    string market_id = 1; // ID of the market
+    repeated MarketTrade trades = 2; // List of trades for the market
+    common.PageInfo page_info = 3; // Pagination info
+}
+
+message OrderBook {
+    repeated OrderLevel bids = 1;
+    repeated OrderLevel asks = 2;
+}
+
+message GetMarketBookResponse {
+    string market_id = 1; // ID of the market
+    OrderBook yes_book = 2; // Order book for YES outcome
+    OrderBook no_book = 3; // Order book for NO outcome
+}
+
+message RequestWithMarketId {
+    string market_id = 1;
+}
+
+message RequestForMarketBook {
+    string market_id = 1;
+    uint32 depth = 2;
+}
+
+message Market {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string logo = 4;
+    MarketStatus status = 5;    
+    double liquidity_b = 6;
+    Outcome final_outcome = 7;
+    string created_at = 8;
+    string updated_at = 9;
+    string market_expiry = 10;
+    float yes_price = 11;
+    float no_price = 12;
+}
+
+message VolumeInfo {
+    string market_id = 1;
+
+    double yes_buy_qty = 2;
+    double yes_buy_usd = 3;
+
+    double yes_sell_qty = 4;
+    double yes_sell_usd = 5;
+
+    double no_buy_qty = 6;
+    double no_buy_usd = 7;
+
+    double no_sell_qty = 8;
+    double no_sell_usd = 9;
+}
+
+message MarketPrice {
+    string market_id = 1;
+    double latest_yes_price = 2;
+    double latest_no_price = 3;
+}
+
+message GetMarketByIdResponse {
+    Market market = 1;
+    VolumeInfo volume_info = 2;
+    MarketPrice market_price = 3;
+}
+
+
+message UserWithTotalHoldings {
+    string user_id = 1;
+    double total_shares = 2;
+    double total_yes_shares = 3;
+    double total_no_shares = 4;
+    string username = 5;
+    string avatar = 6;
+}
+
+message GetTopHoldersResponse {
+    string market_id = 1;
+    repeated UserWithTotalHoldings top_holders = 2;
+}
+
+message GetPaginatedMarketResponse {
+    repeated Market markets = 1;
+    common.PageInfo pageInfo = 2;
+}

@@ -1,0 +1,118 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO polymarket.user_transactions (user_id, amount, transaction_type, transaction_status, tx_hash)\n            VALUES ($1, $2, $3, $4, $5)\n            RETURNING id, user_id, amount, transaction_type as \"transaction_type: UserTransactionType\", transaction_status as \"transaction_status: UserTransactionStatus\", tx_hash, confirmed_at, created_at, updated_at\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "amount",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "transaction_type: UserTransactionType",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.user_transaction_type",
+            "kind": {
+              "Enum": [
+                "deposit",
+                "withdrawal",
+                "trade"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "transaction_status: UserTransactionStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.user_transaction_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "complete",
+                "failed"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "tx_hash",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "confirmed_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "polymarket.user_transaction_type",
+            "kind": {
+              "Enum": [
+                "deposit",
+                "withdrawal",
+                "trade"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.user_transaction_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "complete",
+                "failed"
+              ]
+            }
+          }
+        },
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "b09e4c72ccd2c94e0fbbfe5ffa76f163b98050f07de6e25b092f9b3e22c94f27"
+}

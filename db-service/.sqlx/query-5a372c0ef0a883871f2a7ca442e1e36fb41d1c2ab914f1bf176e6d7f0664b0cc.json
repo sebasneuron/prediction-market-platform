@@ -1,0 +1,137 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO polymarket.user_trades (buy_order_id, sell_order_id, user_id, market_id, outcome, price, quantity, trade_type)\n            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)\n            RETURNING id, buy_order_id, sell_order_id, user_id, market_id,\n            outcome as \"outcome: Outcome\",\n            price, quantity, timestamp, created_at, updated_at,\n            trade_type as \"trade_type: OrderSide\"\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "buy_order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "sell_order_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 5,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 8,
+        "name": "timestamp",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 11,
+        "name": "trade_type: OrderSide",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        },
+        "Numeric",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "5a372c0ef0a883871f2a7ca442e1e36fb41d1c2ab914f1bf176e6d7f0664b0cc"
+}

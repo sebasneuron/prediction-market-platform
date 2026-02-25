@@ -1,0 +1,54 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                SELECT\n                    u.id AS user_id,\n                    u.name AS username,\n                    u.avatar,\n                    SUM(uh.shares) AS total_shares,\n                    SUM(uh.shares) FILTER (WHERE uh.outcome = 'yes'::polymarket.outcome) AS total_yes_shares,\n                    SUM(uh.shares) FILTER (WHERE uh.outcome = 'no'::polymarket.outcome) AS total_no_shares\n                FROM polymarket.user_holdings uh\n                JOIN polymarket.users u ON uh.user_id = u.id\n                WHERE uh.market_id = $1 AND u.name != $2\n                GROUP BY u.id, u.name, u.avatar\n                ORDER BY total_shares DESC\n                LIMIT $3\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "username",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "total_shares",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "total_yes_shares",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "total_no_shares",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "cccdb2bbd51432463f65eff9517bad135a15ad99e50fc9562cb394e3d68c38c5"
+}

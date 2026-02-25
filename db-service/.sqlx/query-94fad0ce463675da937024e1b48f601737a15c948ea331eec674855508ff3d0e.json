@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "CALL polymarket.update_order_and_process_trade($1, $2, $3);",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Numeric"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "94fad0ce463675da937024e1b48f601737a15c948ea331eec674855508ff3d0e"
+}

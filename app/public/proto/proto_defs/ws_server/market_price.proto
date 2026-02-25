@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ws_market_price;
+
+
+message WsParamsPayload { // stringified payload linked to -> (string params) in WsData
+    string market_id = 1;
+    double yes_price = 2;
+    double no_price = 3;
+    uint64 timestamp = 4;
+}

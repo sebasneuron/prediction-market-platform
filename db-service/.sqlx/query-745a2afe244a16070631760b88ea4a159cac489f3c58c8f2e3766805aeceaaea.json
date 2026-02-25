@@ -1,0 +1,39 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT COUNT(*) FROM polymarket.orders\n            WHERE user_id = $1 AND status = $2\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "count",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.order_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "filled",
+                "cancelled",
+                "unspecified",
+                "expired",
+                "pending_cancel",
+                "partial_fill",
+                "pending_update"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "745a2afe244a16070631760b88ea4a159cac489f3c58c8f2e3766805aeceaaea"
+}

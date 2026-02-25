@@ -1,0 +1,154 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                WITH \n                holdings AS (\n                    SELECT \n                        uh.market_id,\n                        uh.outcome,\n                        uh.shares\n                    FROM polymarket.user_holdings uh\n                    WHERE uh.user_id = $1\n                ),\n\n                orders AS (\n                    SELECT \n                        COUNT(*) FILTER (WHERE status = 'open') AS open_orders,\n                        COUNT(*) FILTER (WHERE status = 'partial_fill') AS partial_orders,\n                        COUNT(*) AS total_orders,\n                        AVG(filled_quantity / NULLIF(quantity, 0)) AS avg_fill_ratio\n                    FROM polymarket.orders\n                    WHERE user_id = $1\n                ),\n\n                trades AS (\n                    SELECT \n                        COUNT(*) AS total_trades,\n                        SUM(quantity) AS total_volume,\n                        AVG(price) AS avg_trade_price,\n                        MAX(quantity) AS max_trade_qty,\n                        MIN(created_at) AS first_trade_at,\n                        MAX(created_at) AS last_trade_at,\n                        COUNT(DISTINCT market_id) AS markets_traded\n                    FROM polymarket.user_trades\n                    WHERE user_id = $1\n                ),\n\n                txns AS (\n                    SELECT\n                        SUM(amount) FILTER (WHERE transaction_type = 'deposit') AS total_deposit,\n                        SUM(amount) FILTER (WHERE transaction_type = 'withdrawal') AS total_withdraw,\n                        MAX(created_at) FILTER (WHERE transaction_type = 'deposit') AS last_deposit,\n                        MAX(created_at) FILTER (WHERE transaction_type = 'withdrawal') AS last_withdraw\n                    FROM polymarket.user_transactions\n                    WHERE user_id = $1\n                )\n\n                SELECT\n                    u.id,\n                    u.name,\n                    u.email,\n                    u.avatar,\n                    u.public_key,\n                    u.balance,\n                    u.last_login,\n                    u.created_at,\n                    \n                    -- Orders\n                    o.open_orders,\n                    o.partial_orders,\n                    o.total_orders,\n                    o.avg_fill_ratio,\n\n                    -- Trades\n                    t.total_trades::bigint,\n                    t.total_volume,\n                    t.avg_trade_price,\n                    t.max_trade_qty,\n                    t.first_trade_at,\n                    t.last_trade_at,\n                    t.markets_traded::bigint,\n\n                    -- Txns\n                    x.total_deposit,\n                    x.total_withdraw,\n                    x.last_deposit,\n                    x.last_withdraw\n\n                FROM polymarket.users u\n                LEFT JOIN orders o ON true\n                LEFT JOIN trades t ON true\n                LEFT JOIN txns x ON true\n                WHERE u.id = $1;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "public_key",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_login",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "open_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 9,
+        "name": "partial_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 10,
+        "name": "total_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 11,
+        "name": "avg_fill_ratio",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 12,
+        "name": "total_trades",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 13,
+        "name": "total_volume",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 14,
+        "name": "avg_trade_price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 15,
+        "name": "max_trade_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 16,
+        "name": "first_trade_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 17,
+        "name": "last_trade_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 18,
+        "name": "markets_traded",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 19,
+        "name": "total_deposit",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 20,
+        "name": "total_withdraw",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 21,
+        "name": "last_deposit",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 22,
+        "name": "last_withdraw",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "9abdef7a17585ab818d368aaf9ab04b3579e793757177d7e79c5c9ceb19be1f4"
+}

@@ -1,0 +1,141 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n            o.id, o.user_id, o.market_id,\n            o.outcome as \"outcome: Outcome\",\n            o.price, o.quantity, o.filled_quantity,\n            o.status as \"status: OrderStatus\",\n            o.side as \"side: OrderSide\",\n            o.created_at, o.updated_at, m.liquidity_b,\n            o.order_type as \"order_type: OrderType\"\n            FROM polymarket.orders o\n            JOIN polymarket.markets m ON o.market_id = m.id\n            WHERE o.status IN ('open'::polymarket.order_status, 'unspecified'::polymarket.order_status)\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "filled_quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "status: OrderStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "filled",
+                "cancelled",
+                "unspecified",
+                "expired",
+                "pending_cancel",
+                "partial_fill",
+                "pending_update"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "side: OrderSide",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 11,
+        "name": "liquidity_b",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 12,
+        "name": "order_type: OrderType",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_type",
+            "kind": {
+              "Enum": [
+                "limit",
+                "market",
+                "stop_loss",
+                "take_profit"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "909b9aa33427c5be572e5c0d6359b147a743decad143aa275d470b8204195fc6"
+}

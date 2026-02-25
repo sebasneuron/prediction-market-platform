@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT COUNT(*) FROM polymarket.user_trades ut\n            JOIN polymarket.users u ON u.id = ut.user_id\n            WHERE ut.market_id = $1 AND u.name != $2\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "count",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "e5b5a989c149e01730594e0b1fde40a6ca21c74925760067d3a4fad23f82133d"
+}

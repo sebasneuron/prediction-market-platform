@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package order_book;
+
+
+// which price, how many shares (total quantity) and how many users on same price (histogram)
+message OrderLevel {
+    double price = 1;
+    double shares = 2;
+    uint32 users = 3;
+}
+
+message OrderBook {
+    repeated OrderLevel bids = 2;
+    repeated OrderLevel asks = 3;
+}
+
+message MarketBook {
+    string market_id = 1;
+    OrderBook yes_book = 2;
+    OrderBook no_book = 3;
+}
+

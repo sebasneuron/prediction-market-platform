@@ -1,0 +1,195 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE \"polymarket\".\"orders\"\n            SET \n                user_id = $1,\n                market_id = $2,\n                side = $3,\n                outcome = $4,\n                price = $5,\n                quantity = $6,\n                filled_quantity = $7,\n                status = $8,\n                order_type = $9\n            WHERE id = $10\n            RETURNING \n            id, user_id, market_id,\n            outcome as \"outcome: Outcome\",\n            price, quantity, filled_quantity,\n            status as \"status: OrderStatus\",\n            side as \"side: OrderSide\",\n            order_type as \"order_type: OrderType\",\n            created_at, updated_at\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "filled_quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "status: OrderStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "filled",
+                "cancelled",
+                "unspecified",
+                "expired",
+                "pending_cancel",
+                "partial_fill",
+                "pending_update"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "side: OrderSide",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 9,
+        "name": "order_type: OrderType",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_type",
+            "kind": {
+              "Enum": [
+                "limit",
+                "market",
+                "stop_loss",
+                "take_profit"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 10,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 11,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        },
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "polymarket.order_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "filled",
+                "cancelled",
+                "unspecified",
+                "expired",
+                "pending_cancel",
+                "partial_fill",
+                "pending_update"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.order_type",
+            "kind": {
+              "Enum": [
+                "limit",
+                "market",
+                "stop_loss",
+                "take_profit"
+              ]
+            }
+          }
+        },
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "5f7227f70064ef0c063c205e5576e689eb3580aaa4158a08e72ce26576170732"
+}

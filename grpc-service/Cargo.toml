@@ -1,0 +1,26 @@
+[package]
+name = "grpc-service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tonic = "0.13.1"
+tonic-reflection = "0.13.1"
+tonic-web = "0.13.1"
+tower-http = { version = "0.6.6", features = ["cors"] }
+clickhouse = { version = "0.13.3", features = ["uuid", "chrono"] }
+chrono = { workspace = true }
+sqlx = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+utility-helpers = { path = "../utility-helpers" }
+db-service = { path = "../db-service" }
+
+[build-dependencies]
+tonic-build = "0.13.1"

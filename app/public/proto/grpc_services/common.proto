@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package common;
+
+message PageInfo {
+    uint64 page = 1;
+    uint64 page_size = 2;
+    uint64 total_items = 3;
+    uint64 total_pages = 4;
+}
+
+message PageRequest {
+    uint64 page = 1;
+    uint64 page_size = 2;
+}
+
+
+enum Timeframe {
+    TIMEFRAME_UNSPECIFIED = 0;
+    TIMEFRAME_ONE_HOUR = 1;
+    TIMEFRAME_SIX_HOUR = 2;
+    TIMEFRAME_ONE_DAY = 3;
+    TIMEFRAME_ONE_WEEK = 4;
+    TIMEFRAME_ONE_MONTH = 5;
+    TIMEFRAME_ALL = 6;
+}

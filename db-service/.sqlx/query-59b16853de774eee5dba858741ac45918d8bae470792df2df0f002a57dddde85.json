@@ -1,0 +1,111 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                id,\n                name,\n                description,\n                logo,\n                status as \"status: MarketStatus\",\n                final_outcome as \"final_outcome: Outcome\",\n                liquidity_b,\n                market_expiry,\n                created_at,\n                updated_at\n            FROM \"polymarket\".\"markets\"\n            WHERE status = $1\n            ORDER BY created_at DESC\n            LIMIT $2 OFFSET $3\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "logo",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "status: MarketStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.market_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "closed",
+                "settled"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "final_outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "liquidity_b",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "market_expiry",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "polymarket.market_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "closed",
+                "settled"
+              ]
+            }
+          }
+        },
+        "Int8",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "59b16853de774eee5dba858741ac45918d8bae470792df2df0f002a57dddde85"
+}

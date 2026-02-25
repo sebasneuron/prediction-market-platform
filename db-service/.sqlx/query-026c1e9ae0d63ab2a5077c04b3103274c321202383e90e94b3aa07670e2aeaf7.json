@@ -1,0 +1,85 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                UPDATE \"polymarket\".\"users\" SET\n                    email = $1,\n                    name = $2,\n                    avatar = $3,\n                    last_login = CURRENT_TIMESTAMP\n                WHERE id = $4\n                RETURNING *\n                ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "google_id",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "last_login",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 6,
+        "name": "public_key",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "private_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "026c1e9ae0d63ab2a5077c04b3103274c321202383e90e94b3aa07670e2aeaf7"
+}

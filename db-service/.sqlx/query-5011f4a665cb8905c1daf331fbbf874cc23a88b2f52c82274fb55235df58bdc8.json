@@ -1,0 +1,27 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE polymarket.users\n            SET balance = CASE\n                WHEN id = $1 THEN balance + ($2::numeric * (CASE WHEN $3 = 'sell'::polymarket.order_side THEN 1 ELSE -1 END))\n                WHEN id = $4 THEN balance + ($2::numeric * (CASE WHEN $3 = 'buy'::polymarket.order_side THEN 1 ELSE -1 END))\n            END\n            WHERE id IN ($1, $4);\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Numeric",
+        {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        },
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "5011f4a665cb8905c1daf331fbbf874cc23a88b2f52c82274fb55235df58bdc8"
+}

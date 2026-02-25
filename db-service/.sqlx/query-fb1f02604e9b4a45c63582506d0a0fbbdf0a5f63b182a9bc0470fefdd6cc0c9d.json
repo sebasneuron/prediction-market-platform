@@ -1,0 +1,117 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                uh.market_id,\n                uh.outcome AS \"outcome: Outcome\",\n                uh.shares,\n                \n                m.name AS market_name,\n                m.description AS market_description,\n                m.logo AS market_logo,\n                m.status AS \"market_status: MarketStatus\",\n                m.final_outcome AS \"final_outcome: Outcome\",\n                m.market_expiry AS market_expiry,\n                m.created_at AS market_created_at,\n                m.updated_at AS market_updated_at\n            FROM polymarket.user_holdings uh\n            JOIN polymarket.markets m ON uh.market_id = m.id\n            WHERE uh.user_id = $1\n            ORDER BY uh.created_at DESC\n            LIMIT $2 OFFSET $3\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "shares",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "market_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "market_description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "market_logo",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "market_status: MarketStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.market_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "closed",
+                "settled"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "name": "final_outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "name": "market_expiry",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "market_created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "market_updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Int8",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "fb1f02604e9b4a45c63582506d0a0fbbdf0a5f63b182a9bc0470fefdd6cc0c9d"
+}

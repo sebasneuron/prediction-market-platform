@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                SUM(CASE WHEN outcome = 'yes'::polymarket.outcome THEN shares ELSE 0 END) as \"yes_shares\",\n                SUM(CASE WHEN outcome = 'no'::polymarket.outcome THEN shares ELSE 0 END) as \"no_shares\"\n            FROM polymarket.user_holdings\n            WHERE user_id = $1 AND market_id = $2\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "yes_shares",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 1,
+        "name": "no_shares",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "7929dc94bbc48788fd63faea4e7bd0c30af5d27299cd7e233122d965a135b8e6"
+}

@@ -1,0 +1,94 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT\n                ut.id,\n                u.name, \n                u.email, \n                u.avatar,\n                ut.trade_type as \"trade_type: OrderSide\",\n                ut.outcome as \"outcome: Outcome\", \n                ut.price, \n                ut.quantity, \n                ut.timestamp\n            FROM polymarket.user_trades ut\n            JOIN polymarket.users u ON u.id = ut.user_id\n            WHERE ut.market_id = $1 AND u.name != $2\n            ORDER BY ut.timestamp DESC\n            LIMIT $3 OFFSET $4\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "trade_type: OrderSide",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.order_side",
+            "kind": {
+              "Enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "quantity",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 8,
+        "name": "timestamp",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Int8",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "213de6d4e8fff386bd5bddc011ac1f8b6bdaa76598e4c03af9835f88a7bb321e"
+}

@@ -1,0 +1,87 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO \"polymarket\".\"users\" (\n                google_id,\n                email,\n                name,\n                avatar,\n                public_key, \n                private_key\n            ) VALUES (\n                $1, $2, $3, $4, $5, $6\n            ) RETURNING *                \n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "google_id",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "last_login",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 6,
+        "name": "public_key",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "private_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "3673e672daeb6b4656b07cbe50b07208faa9e1f650f87cd7cb36942ab17a503d"
+}

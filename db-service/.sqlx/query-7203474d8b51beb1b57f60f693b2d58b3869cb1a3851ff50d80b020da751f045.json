@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE \"polymarket\".\"markets\" \n            SET liquidity_b = $1\n            WHERE id = $2\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Numeric",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "7203474d8b51beb1b57f60f693b2d58b3869cb1a3851ff50d80b020da751f045"
+}

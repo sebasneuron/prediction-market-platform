@@ -1,0 +1,198 @@
+services:
+  postgres:
+    build:
+      context: ./pg-docker
+      dockerfile: pg.Dockerfile
+    image: poly-postgres:latest
+    container_name: polyMarket_postgres
+    environment:
+      POSTGRES_USER: polyMarket
+      POSTGRES_PASSWORD: polyMarket
+      POSTGRES_DB: polyMarket
+    ports:
+      - "5432:5432"
+    networks:
+      - polyMarket_network
+    volumes:
+      - pgData:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: polyMarket_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - polyMarket_network
+
+  nats:
+    image: nats:2.11.3-alpine3.21
+    container_name: polyMarket_nats
+    command: -js
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+    networks:
+      - polyMarket_network
+
+  clickhouse:
+    image: clickhouse:24.8.14
+    container_name: polyMarket_clickhouse
+    ports:
+      - "8123:8123"
+    networks:
+      - polyMarket_network
+    environment:
+      CLICKHOUSE_USER: polyMarket
+      CLICKHOUSE_PASSWORD: polyMarket
+    volumes:
+      - ./queries/clickhouse_tables/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - clickhouse_data:/var/lib/clickhouse
+
+  redpanda:
+    image: redpandadata/redpanda:v24.3.14
+    container_name: polyMarket_redpanda
+    ports:
+      - 18081:18081
+      - 18082:18082
+      - 19092:19092
+      - 19644:9644
+    environment:
+      RP_BOOTSTRAP_USER: "polyMarket:polyMarket"
+    networks:
+      - polyMarket_network
+    command:
+      - redpanda
+      - start
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr redpanda:33145
+      - --advertise-rpc-addr redpanda:33145
+      - --mode dev-container
+      - --default-log-level=info
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "rpk",
+          "cluster",
+          "info",
+          "-X",
+          "user=polyMarket",
+          "-X",
+          "pass=polyMarket",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  service-api:
+    build:
+      context: .
+    command: ["./service-api"]
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - polyMarket_network
+
+    container_name: polyMarket_service_api
+
+    depends_on:
+      - postgres
+      - redis
+      - nats
+      - clickhouse
+      - redpanda
+
+  grpc-service:
+    build:
+      context: .
+    command: ["./grpc-service"]
+    ports:
+      - "5010:5010"
+    restart: unless-stopped
+
+    container_name: polyMarket_grpc_service
+
+    env_file: .env
+    networks:
+      - polyMarket_network
+
+    depends_on:
+      - postgres
+      - redis
+      - nats
+      - clickhouse
+      - redpanda
+      - service-api
+
+  websocket-service:
+    build:
+      context: .
+    command: ["./websocket-service"]
+    ports:
+      - "4010:4010"
+
+    container_name: polyMarket_websocket_service
+
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - polyMarket_network
+
+    depends_on:
+      - postgres
+      - redis
+      - nats
+      - clickhouse
+      - redpanda
+      - grpc-service
+
+  order-service:
+    build:
+      context: .
+    command: ["./order-service"]
+
+    container_name: polyMarket_order_service
+
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - polyMarket_network
+
+    depends_on:
+      - postgres
+      - redis
+      - nats
+      - clickhouse
+      - redpanda
+      - websocket-service
+
+  client:
+    build:
+      context: ./app
+      dockerfile: client.Dockerfile
+
+    container_name: polyMarket_client
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - ./app/.env
+      - .env
+
+    networks:
+      - polyMarket_network
+
+networks:
+  polyMarket_network:
+    driver: bridge
+
+volumes:
+  pgData:
+  clickhouse_data:

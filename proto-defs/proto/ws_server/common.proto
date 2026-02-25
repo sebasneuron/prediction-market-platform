@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package ws_common_types;
+
+// sample payload (note this type of payload is only send by internal services, not by clients):
+/*
+    {
+        "id":"AdminIsLegend",
+        "params":{
+            "ops": "Subscribe",
+            "data": {
+                "channel": "price_update:67df943a-09a5-4ddb-adeb-11042c37c32e"
+            }
+        }
+    }
+*/
+
+
+enum OperationType {
+    SUBSCRIBE = 0;
+    UNSUBSCRIBE = 1;
+    POST = 2;
+    HANDSHAKE = 3;
+}
+
+enum Channel {
+    PRICEUPDATE = 0;
+    PRICEPOSTER = 1;
+    ORDERSERVICE = 2;
+}
+
+message WsMessage {
+    optional string id = 1;
+    Payload payload = 2;
+}
+
+// wrapped data payload
+message Payload {
+    OperationType ops = 1;
+    WsData data = 2;
+}
+
+// data to send to the channel
+message WsData {
+    Channel channel = 1;
+    string params = 2;
+}
