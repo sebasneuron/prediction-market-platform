@@ -179,8 +179,6 @@ WebSocket connections provide:
 
 ## License
 
-[Specify your license here]
-
 ## Support
 
 For issues, questions, or contributions, please open an issue on the repository or contact me via [Telegram](https://t.me/sebasneuron).
